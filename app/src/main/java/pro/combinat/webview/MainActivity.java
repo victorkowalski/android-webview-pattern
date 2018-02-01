@@ -30,7 +30,8 @@ private WebView mWebView;
         mWebView=(WebView)findViewById(R.id.webView);
         mWebView.setWebViewClient(new MyBrowser());
 
-                String url = "https://www.tutorialspoint.com";
+                String url = "file:///android_asset/games/test-game/index.html"; //"https://www.tutorialspoint.com";
+
 
         mWebView.getSettings().setLoadsImagesAutomatically(true);
         mWebView.getSettings().setJavaScriptEnabled(true);
