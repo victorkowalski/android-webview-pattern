@@ -16,13 +16,8 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        boolean connected = false;//isNetworkAvailable();
-        Intent intent = null;
-        if(connected) {
-            intent = new Intent(this, WebViewActivity.class);
-        } else {
-            intent = new Intent(this, MainActivity.class);
-        }
+        boolean connected = isNetworkAvailable();
+        Intent intent = new Intent(this, MainActivity.class);
         intent.putExtra("NETWORK_STATUS", connected);
         startActivity(intent);
         finish();

@@ -1,5 +1,7 @@
 package pro.combinat.utils;
 
+import android.util.Log;
+
 import java.security.SecureRandom;
 
 import javax.crypto.Cipher;
@@ -83,4 +85,19 @@ public class AESHelper {
         sb.append(HEX.charAt((b >> 4) & 0x0f)).append(HEX.charAt(b & 0x0f));
     }
 
+    public static String getUrl(String encryptedData) {
+        String seedValue = "I AM UNBREAKABLE";
+        String decryptedData = null;
+        try {
+            //String encryptedData = AESHelper.encrypt(seedValue, app_url);
+            //Log.v("EncryptDecrypt", "Encoded String " + encryptedData);
+            decryptedData = AESHelper.decrypt(seedValue, encryptedData);
+            Log.v("EncryptDecrypt", "Decoded String " + decryptedData);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return decryptedData;
+    }
 }
+//131DEFF3C6C09261C3F8D7557CF435DE2BD001570DFEFDB06605BE1EDBE5DD9F

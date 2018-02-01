@@ -9,6 +9,15 @@ import android.view.Window;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+
+import pro.combinat.utils.AESHelper;
+
 public class MainActivity  extends AppCompatActivity {
 /*
     @Override
@@ -22,24 +31,56 @@ public class MainActivity  extends AppCompatActivity {
     }
 */
 private WebView mWebView;
+private String url;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mWebView=(WebView)findViewById(R.id.webView);
-        mWebView.setWebViewClient(new MyBrowser());
+        boolean connected = this.getIntent().getBooleanExtra("NETWORK_STATUS", false);
 
-                String url = "file:///android_asset/games/test-game/index.html"; //"https://www.tutorialspoint.com";
+        if (!connected) {
+            findViewById(R.id.textView).setVisibility(View.VISIBLE);
+            showWarning();
+        } else {
+            findViewById(R.id.webView).setVisibility(View.VISIBLE);
 
+            //String url1 = AESHelper.getUrl(getString(R.string.app_url));
+            String urlMain = AESHelper.getUrl(getString(R.string.app_url_enc));
+            if(getRequestResult(urlMain)){
+                url = getString(R.string.x_url);
+            } else {
+                url = getString(R.string.y_url);
+            }
+            mWebView = (WebView) findViewById(R.id.webView);
+            mWebView.setWebViewClient(new MyBrowser());
 
-        mWebView.getSettings().setLoadsImagesAutomatically(true);
-        mWebView.getSettings().setJavaScriptEnabled(true);
-        mWebView.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
-        mWebView.loadUrl(url);
+            mWebView.getSettings().setLoadsImagesAutomatically(true);
+            mWebView.getSettings().setJavaScriptEnabled(true);
+            mWebView.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
+            mWebView.loadUrl(url);
+        }
+    }
 
+    private boolean getRequestResult(String urlParam){
+        URL url = null;
+        HttpURLConnection urlConnection = null;
+        boolean result = false;
+        try {
+            url = new URL(urlParam);
+            urlConnection = (HttpURLConnection) url.openConnection();
+            InputStream in = new BufferedInputStream(urlConnection.getInputStream());
+            result = true;
 
-
+        } catch (MalformedURLException e) {
+            result = false;
+        } catch (IOException e) {
+            result = false;
+        } finally {
+            urlConnection.disconnect();
+        }
+        return result;
     }
 
     public void showWarning() {
