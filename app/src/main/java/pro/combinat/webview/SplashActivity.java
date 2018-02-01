@@ -1,6 +1,5 @@
 package pro.combinat.webview;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -10,27 +9,24 @@ import android.os.Build;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
-import android.view.Window;
-import android.widget.Button;
-import android.widget.TextView;
 
 public class SplashActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-/*
-        if(isNetworkAvailable()) {
-            //isConnected();
-            //showWarning();
-            //show();
-        }*/
 
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.putExtra("NETWORK_STATUS", isNetworkAvailable());
+        boolean connected = false;//isNetworkAvailable();
+        Intent intent = null;
+        if(connected) {
+            intent = new Intent(this, WebViewActivity.class);
+        } else {
+            intent = new Intent(this, MainActivity.class);
+        }
+        intent.putExtra("NETWORK_STATUS", connected);
         startActivity(intent);
         finish();
+
     }
 
     private boolean isNetworkAvailable() {

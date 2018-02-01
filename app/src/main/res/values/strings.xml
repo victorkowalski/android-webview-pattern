@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">android-webview-pattern</string>
+    <string name="app_url">https://market.yandex.ru</string>
+
 </resources>
