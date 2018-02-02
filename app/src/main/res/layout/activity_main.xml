@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="pro.combinat.webview.WebViewActivity">
+    tools:context="pro.combinat.webview.MainActivity">
 
     <TextView
         android:visibility="gone"
@@ -16,7 +16,9 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
     <WebView
         android:visibility="gone"
         android:layout_width="wrap_content"
@@ -27,5 +29,6 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true" />
+    </ScrollView>
 
 </android.support.constraint.ConstraintLayout>

@@ -5,34 +5,17 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.view.Window;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import java.io.BufferedInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.concurrent.ExecutionException;
 
 import pro.combinat.utils.AESHelper;
 import pro.combinat.utils.HttpGetRequest;
 
 public class MainActivity  extends AppCompatActivity {
-/*
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
-        boolean connected = this.getIntent().getBooleanExtra("NETWORK_STATUS", false);
-        if (!connected)
-            showWarning();
-    }
-*/
-private WebView mWebView;
+private WebView webView;
 private String url;
 
     @Override
@@ -55,20 +38,17 @@ private String url;
             } else {
                 url = getString(R.string.y_url);
             }
-            mWebView = (WebView) findViewById(R.id.webView);
-            mWebView.setWebViewClient(new MyBrowser());
+            webView = (WebView) findViewById(R.id.webView);
+            webView.setWebViewClient(new MyBrowser());
 
-            mWebView.getSettings().setLoadsImagesAutomatically(true);
-            mWebView.getSettings().setJavaScriptEnabled(true);
-            mWebView.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
-            mWebView.loadUrl(url);
+            webView.getSettings().setLoadsImagesAutomatically(true);
+            webView.getSettings().setJavaScriptEnabled(true);
+            //webView.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
+            webView.loadUrl(url);
         }
     }
 
     private String getRequestResult(String urlParam) {
-        //Some url endpoint that you may have
-        //String urlParam = "http://myApi.com/get_some_data";
-        //String to place our result in
         String result = null;
         //Instantiate new instance of our class
         HttpGetRequest getRequest = new HttpGetRequest();
@@ -82,26 +62,6 @@ private String url;
         }
         return result;
     }
-/*
-    private boolean getRequestResult(String urlParam){
-        URL url = null;
-        HttpURLConnection urlConnection = null;
-        boolean result = false;
-        try {
-            url = new URL(urlParam);
-            urlConnection = (HttpURLConnection) url.openConnection();
-            InputStream in = new BufferedInputStream(urlConnection.getInputStream());
-            result = true;
-
-        } catch (MalformedURLException e) {
-            result = false;
-        } catch (IOException e) {
-            result = false;
-        } finally {
-            urlConnection.disconnect();
-        }
-        return result;
-    }*/
 
     public void showWarning() {
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
