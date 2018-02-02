@@ -15,8 +15,10 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.concurrent.ExecutionException;
 
 import pro.combinat.utils.AESHelper;
+import pro.combinat.utils.HttpGetRequest;
 
 public class MainActivity  extends AppCompatActivity {
 /*
@@ -48,7 +50,7 @@ private String url;
 
             //String url1 = AESHelper.getUrl(getString(R.string.app_url));
             String urlMain = AESHelper.getUrl(getString(R.string.app_url_enc));
-            if(getRequestResult(urlMain)){
+            if(getRequestResult(urlMain).equalsIgnoreCase("OK")){
                 url = getString(R.string.x_url);
             } else {
                 url = getString(R.string.y_url);
@@ -63,6 +65,24 @@ private String url;
         }
     }
 
+    private String getRequestResult(String urlParam) {
+        //Some url endpoint that you may have
+        //String urlParam = "http://myApi.com/get_some_data";
+        //String to place our result in
+        String result = null;
+        //Instantiate new instance of our class
+        HttpGetRequest getRequest = new HttpGetRequest();
+        //Perform the doInBackground method, passing in our url
+        try {
+            result = getRequest.execute(urlParam).get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+/*
     private boolean getRequestResult(String urlParam){
         URL url = null;
         HttpURLConnection urlConnection = null;
@@ -81,7 +101,7 @@ private String url;
             urlConnection.disconnect();
         }
         return result;
-    }
+    }*/
 
     public void showWarning() {
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
